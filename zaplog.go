@@ -125,12 +125,20 @@ func (opts *zapBuilder) Build() *zap.Logger {
 
 var (
 	loggers = make(map[string]*zap.Logger)
+	DefaultLogger = NewZapBuilder().EnableConsole().Build()
 )
+
+func SetDefaultLogger(logger *zap.Logger) {
+	DefaultLogger = logger
+}
 
 func RegisterLogger(k string, logger *zap.Logger) {
 	loggers[k] = logger
 }
 
 func GetLogger(k string) *zap.Logger {
-	return loggers[k]
+	if logger, ok := loggers[k]; ok {
+		return logger
+	}
+	return DefaultLogger
 }
