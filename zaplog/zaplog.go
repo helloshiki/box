@@ -1,4 +1,4 @@
-package box
+package zaplog
 
 import (
 	"fmt"
