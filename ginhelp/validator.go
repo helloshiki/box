@@ -2,8 +2,8 @@ package ginhelp
 
 import (
 	"github.com/gin-gonic/gin/binding"
-	"gopkg.in/go-playground/validator.v8"
-	"reflect"
+	"gopkg.in/go-playground/validator.v9"
+	"regexp"
 )
 
 var (
@@ -11,7 +11,8 @@ var (
 )
 
 func init() {
-	defaultFuncs["username"] = IsUsername
+	//defaultFuncs["chinaPhone"] = IsUsername
+	defaultFuncs["chinaPhone"] = IsChinaPhone
 }
 
 func RegisterValidation(funcs map[string]validator.Func) {
@@ -31,12 +32,21 @@ func RegisterValidation(funcs map[string]validator.Func) {
 			panic(err)
 		}
 	}
+
+	v.RegisterAlias("username", "email|chinaPhone")
 }
 
-
-func IsUsername(v *validator.Validate, topStruct reflect.Value, currentStructOrField reflect.Value, field reflect.Value, fieldType reflect.Type, fieldKind reflect.Kind, param string) bool {
-	if s, ok := field.Interface().(string); ok {
+func IsUsername(fl validator.FieldLevel) bool {
+	if s, ok := fl.Field().Interface().(string); ok {
 		return len(s) > 4
+	}
+	return false
+}
+
+var chinaPhoneReg = regexp.MustCompile(`^1([38][0-9]|14[57]|5[^4])\d{8}$`)
+func IsChinaPhone(fl validator.FieldLevel) bool {
+	if s, ok := fl.Field().Interface().(string); ok {
+		return chinaPhoneReg.MatchString(s)
 	}
 	return false
 }
