@@ -8,5 +8,3 @@ require (
 	github.com/helloshiki/box/ginhelp v0.0.0-00010101000000-000000000000
 	github.com/pkg/errors v0.8.1
 )
-
-replace github.com/helloshiki/box/ginhelp => /home/sk/workspace/nbcex2/src/github.com/helloshiki/box/ginhelp
