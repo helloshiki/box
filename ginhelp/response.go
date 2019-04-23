@@ -68,3 +68,12 @@ var findMessage func(code int) string
 func SetMessageCb(cb func(int) string) {
 	findMessage = cb
 }
+
+func Abort(c *gin.Context, code int) {
+	New(c).Code(code).Abort()
+}
+
+func Result(c *gin.Context, result interface{}) {
+	New(c).Result(result).Send()
+}
+
