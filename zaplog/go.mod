@@ -1,4 +1,4 @@
-module github.com/helloshiki/box
+module github.com/helloshiki/box/zaplog
 
 go 1.12
 
